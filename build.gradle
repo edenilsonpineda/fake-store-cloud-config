@@ -1,11 +1,15 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.3.1'
-	id 'io.spring.dependency-management' version '1.1.5'
+    id 'java'
+    id 'org.springframework.boot' version '3.3.0'
+	id "io.spring.dependency-management" version "1.0.3.RELEASE"
 }
 
-group = 'com.example'
+group = 'com.fake.store.config'
 version = '0.0.1-SNAPSHOT'
+
+ext {
+    springCloudVersion = '2023.0.2'
+}
 
 java {
 	toolchain {
@@ -18,11 +22,46 @@ repositories {
 }
 
 dependencies {
+	implementation('org.springframework.cloud:spring-cloud-starter-vault-config')
+	implementation 'org.springframework.cloud:spring-cloud-config-server'
 	implementation 'org.springframework.boot:spring-boot-starter'
+	
+	// test only deps
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
 }
+
+springBoot {
+	mainClass = 'com.fake.store.config.FakeStoreCloudConfigApplication'
+}
+
+sourceSets {
+	main {
+		java {
+			srcDir 'src/main/java'
+			exclude '**/._*'
+		}
+		resources {
+			srcDir 'src/main/resources'
+			exclude '**/._*'
+		}
+	}
+}
+
+compileJava {
+	exclude '**/._*'
+}
+
+jar {
+	exclude '**/._*'
+}
+
+//tasks.named('test') {
+//	useJUnitPlatform()
+//}

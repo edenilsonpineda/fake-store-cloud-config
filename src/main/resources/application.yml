@@ -1,0 +1,23 @@
+server:
+  port: 8988
+  servlet:
+    context-path: /fake-store-config
+
+spring:
+  application:
+    name: fake-store-cloud-config-server
+  classformat:
+    ignore: true
+  cloud:
+    vault:
+      token: 
+      scheme: http
+      kv:
+       enabled: true 
+    config:
+      server:
+        git: 
+          uri: https://github.com/edenilsonpineda/fake-store-cloud-config.git
+          
+# clientId: 2wzpecZedaGvzTvmW9Souox4E08ZmR4i
+# secret: 2X11KO2Rm7f99Zi-QzBEjA_JqLeOJf4vRiuI4WbzJOoqQeN-39TsG6U62uNAtpDf
